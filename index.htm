@@ -6,8 +6,7 @@
 <title>Isiqiniseko Esijabulisayo 2026</title>
 <link rel="preload" as="image" href="hero.jpg">
 
-<style>
-  :root{
+<style>:root{
     --bg1:#062012;
     --bg2:#0bb653;
     --card1:#0f5c33;
@@ -85,7 +84,7 @@
     border: 1px solid rgba(255,255,255,.12);
     background:#04170c;
   }
-  .hero img{width:100%;max-height:220px;object-fit:contain;border-radius:12px;}
+  .hero img{width:100%;height:auto;border-radius:12px;}
   .hero::after{
     content:"";
     position:absolute; inset:0;
@@ -197,55 +196,11 @@
     flex-direction:column;
     gap:10px;
   }
-
-  .timer{
-    text-align:center;
-    padding:10px 12px;
-    border-radius:14px;
-    font-weight:900;
-    letter-spacing:1px;
-    font-size: clamp(18px, 3.2vh, 26px);
-    color:#000;
-    background: linear-gradient(90deg, var(--gold), var(--gold2));
-    box-shadow: 0 0 26px rgba(255,215,0,.45);
-    animation: glowPulse 1.4s ease-in-out infinite;
+50%    { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 0 34px rgba(255,215,0,.65); }
   }
-  @keyframes glowPulse{
-    0%,100%{ transform: translateY(0); filter: brightness(1); box-shadow: 0 0 26px rgba(255,215,0,.45); }
-    50%    { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 0 34px rgba(255,215,0,.65); }
+to  { transform: translateX(260%) rotate(18deg); }
   }
-
-  .btn{
-    display:block;
-    width:100%;
-    text-align:center;
-    padding:14px 16px;
-    border-radius:999px;
-    text-decoration:none;
-    color:#000;
-    font-weight:900;
-    font-size: clamp(15px, 2.4vh, 18px);
-    background: linear-gradient(90deg, var(--gold), var(--gold2));
-    box-shadow: 0 0 20px rgba(255,215,0,.55);
-    position:relative;
-    overflow:hidden;
-    transform: translateZ(0);
-  }
-  .btn::before{
-    content:"";
-    position:absolute; top:-60%; left:-40%;
-    width:60%; height:220%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
-    transform: rotate(18deg);
-    animation: shine 2.2s linear infinite;
-  }
-  @keyframes shine{
-    from{ transform: translateX(-140%) rotate(18deg); }
-    to  { transform: translateX(260%) rotate(18deg); }
-  }
-  .btn:active{ transform: scale(.99); }
-
-  .trust{
+.trust{
     display:flex;
     justify-content:space-between;
     gap:8px;
@@ -277,31 +232,69 @@
   }
 
 /* Performance + stronger pulse */
-.btn{
-  will-change: transform, filter;
-  animation: ctaPulse 1.25s infinite;
-  transform: translateZ(0);
-}
-@keyframes ctaPulse{
-  0%{transform:scale(1) translateZ(0); filter:drop-shadow(0 0 0 rgba(255,215,0,0.0));}
-  50%{transform:scale(1.035) translateZ(0); filter:drop-shadow(0 0 18px rgba(255,215,0,0.65));}
+50%{transform:scale(1.035) translateZ(0); filter:drop-shadow(0 0 18px rgba(255,215,0,0.65));}
   100%{transform:scale(1) translateZ(0); filter:drop-shadow(0 0 0 rgba(255,215,0,0.0));}
 }
 /* Reduce heavy shadows slightly for faster paint */
 .box{box-shadow: 0 10px 24px rgba(0,0,0,.25);}
 
-
-/* Mobile compression */
+/* Mobile compression (image restored) */
 .container{padding:8px;}
-.hero img{max-height:160px;}
+.hero img{width:100%;height:auto;border-radius:12px;}
 .box{padding:10px;margin-top:8px;}
 h1{margin:6px 0;font-size:20px;}
 ul li{margin:4px 0;font-size:14px;}
 p{margin:4px 0;font-size:14px;}
-.counter{margin-top:10px;font-size:22px;}
-.btn{margin-top:8px;padding:12px;font-size:16px;}
 .footer{margin-top:8px;}
 
+/* CTA Button (improved, stable) */
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    text-align:center;
+    padding:14px 16px;
+    border-radius:999px;
+    text-decoration:none;
+    color:#091006;
+    font-weight:900;
+    font-size: clamp(15px, 2.4vh, 18px);
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow:
+      0 14px 30px rgba(0,0,0,.45),
+      0 0 22px rgba(255,215,0,.45);
+    position:relative;
+    overflow:hidden;
+    transform: translateZ(0);
+    will-change: transform, filter;
+    animation: ctaPulse 1.15s ease-in-out infinite;
+  }
+  .btn::before{
+    content:"";
+    position:absolute;
+    inset:-60% -30%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    transform: rotate(18deg) translateX(-60%);
+    animation: shine 2.2s linear infinite;
+    opacity:.9;
+  }
+  .btn span{
+    position:relative; /* above shine */
+    z-index:1;
+  }
+  .btn:active{ transform: scale(.99); }
+
+  @keyframes shine{
+    0%{ transform: rotate(18deg) translateX(-60%); }
+    100%{ transform: rotate(18deg) translateX(120%); }
+  }
+  @keyframes ctaPulse{
+    0%,100%{ transform: scale(1) translateZ(0); filter: drop-shadow(0 0 0 rgba(255,215,0,0)); }
+    50%{ transform: scale(1.04) translateZ(0); filter: drop-shadow(0 0 18px rgba(255,215,0,.55)); }
+  }
 </style>
 </head>
 
@@ -365,12 +358,10 @@ p{margin:4px 0;font-size:14px;}
 
       <!-- TIMER ABOVE BUTTON -->
       <div class="timerWrap">
-        <div class="timer" id="timer">02:00</div>
-
-        <a class="btn"
+<a class="btn"
            href="https://mm.dreems-gift.com/?utm_medium=900bba75ec5bb1370417191ab8f51691586722e9&utm_campaign=target_ZA_9ac614&np=2"
            target="_blank" rel="noopener">
-          👉 Thola Isipho Sakho Manje!
+          <span>👉 Thola Isipho Sakho Manje!</span>
         </a>
 
     
@@ -391,26 +382,6 @@ p{margin:4px 0;font-size:14px;}
   </div>
 </div>
 
-<script>
-let time = 120;
-const el = document.getElementById("timer");
-
-function render(){
-  const m = Math.floor(time/60);
-  const s = time%60;
-  el.textContent = String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
-}
-
-function tick(){
-  if(time > 0) time--;
-  // Update text in next paint
-  requestAnimationFrame(render);
-  setTimeout(tick, 1000);
-}
-
-requestAnimationFrame(render);
-setTimeout(tick, 1000);
-</script>
 
 </body>
 </html>
