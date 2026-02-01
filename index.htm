@@ -1,139 +1,389 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zu">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Isiqiniseko Esijabulisayo 2026</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family: Arial, sans-serif;
-}
+  :root{
+    --bg1:#062012;
+    --bg2:#0bb653;
+    --card1:#0f5c33;
+    --card2:#082b19;
+    --gold:#ffd700;
+    --gold2:#ff9800;
+    --text:#ffffff;
+    --muted:rgba(255,255,255,.78);
+    --shadow:rgba(0,0,0,.45);
+  }
 
-body{
-  margin:0;
-  background:#0b2d1a;
-  color:#fff;
-}
+  *{ box-sizing:border-box; font-family: Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
 
-.container{
-  max-width:480px;
-  margin:auto;
-  padding:15px;
-}
+  html, body{ height:100%; }
+  body{
+    margin:0;
+    color:var(--text);
+    background:
+      radial-gradient(900px 500px at 50% -10%, rgba(255,215,0,.30), transparent 60%),
+      radial-gradient(700px 420px at 15% 15%, rgba(11,182,83,.35), transparent 60%),
+      radial-gradient(700px 420px at 85% 25%, rgba(255,152,0,.20), transparent 60%),
+      linear-gradient(180deg, var(--bg1), #03140b 70%);
+    overflow:hidden; /* ⬅️ بدون تمرير */
+  }
 
-.hero img{
-  width:100%;
-  border-radius:12px;
-}
+  /* Canvas sparkles */
+  .sparkles{
+    position:fixed; inset:0;
+    pointer-events:none;
+    opacity:.9;
+  }
+  .sparkles::before, .sparkles::after{
+    content:"";
+    position:absolute; inset:-20%;
+    background:
+      radial-gradient(circle, rgba(255,215,0,.85) 0 2px, transparent 3px) 0 0/120px 120px,
+      radial-gradient(circle, rgba(255,255,255,.65) 0 1px, transparent 2px) 40px 20px/160px 160px,
+      radial-gradient(circle, rgba(255,152,0,.65) 0 1.5px, transparent 2.5px) 10px 70px/180px 180px;
+    filter: blur(.1px);
+    transform: translate3d(0,0,0);
+    animation: drift 14s linear infinite;
+  }
+  .sparkles::after{
+    opacity:.6;
+    animation-duration: 22s;
+    mix-blend-mode: screen;
+  }
+  @keyframes drift{
+    from{ transform: translate3d(-2%, -2%, 0) rotate(0deg); }
+    to  { transform: translate3d(2%, 2%, 0) rotate(6deg); }
+  }
 
-.box{
-  background:linear-gradient(135deg,#0f5c33,#0a3b22);
-  padding:15px;
-  border-radius:12px;
-  margin-top:15px;
-}
+  /* Layout fits the whole screen */
+  .wrap{
+    height:100svh;
+    padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
+    display:flex;
+    justify-content:center;
+  }
+  .container{
+    width:min(520px, 100%);
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
 
-h1{
-  font-size:22px;
-  text-align:center;
-  margin:10px 0;
-}
+  /* Hero image takes top portion */
+  .hero{
+    position:relative;
+    flex: 0 0 42%;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow: 0 16px 40px var(--shadow);
+    border: 1px solid rgba(255,255,255,.12);
+    background:#04170c;
+  }
+  .hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transform: scale(1.02);
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65));
+  }
+  .badge{
+    position:absolute;
+    left:12px;
+    top:12px;
+    z-index:2;
+    padding:8px 10px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:12px;
+    color:#000;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    box-shadow: 0 0 18px rgba(255,215,0,.35);
+  }
+  .heroTitle{
+    position:absolute;
+    left:12px;
+    right:12px;
+    bottom:10px;
+    z-index:2;
+    font-weight:800;
+    line-height:1.15;
+    letter-spacing:.2px;
+    text-shadow: 0 8px 24px rgba(0,0,0,.55);
+    font-size: clamp(14px, 2.6vh, 18px);
+  }
+  .heroTitle .gold{ color: var(--gold); }
 
-.highlight{
-  color:#ffd700;
-  font-weight:bold;
-}
+  /* Content card */
+  .card{
+    flex: 1 1 auto;
+    border-radius:14px;
+    padding:12px;
+    background: linear-gradient(135deg, rgba(15,92,51,.92), rgba(8,43,25,.92));
+    box-shadow: 0 16px 40px var(--shadow);
+    border: 1px solid rgba(255,255,255,.10);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    overflow:hidden; /* ensure no internal scroll */
+  }
 
-ul{
-  padding-left:18px;
-}
+  .row{
+    display:flex;
+    gap:10px;
+    align-items:stretch;
+  }
 
-ul li{
-  margin:8px 0;
-}
+  .pill{
+    flex:1;
+    border-radius:12px;
+    padding:10px 10px;
+    background: rgba(0,0,0,.22);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+  .pill .k{ font-size:12px; opacity:.85; }
+  .pill .v{ font-size: clamp(14px, 2.3vh, 18px); font-weight:800; margin-top:4px; }
 
-.counter{
-  text-align:center;
-  font-size:26px;
-  font-weight:bold;
-  color:#ffeb3b;
-  margin:15px 0;
-}
+  .big{
+    text-align:center;
+    margin-top:2px;
+  }
+  .big .amount{
+    font-weight:900;
+    letter-spacing:.2px;
+    font-size: clamp(20px, 3.4vh, 28px);
+    color: var(--gold);
+    text-shadow: 0 0 18px rgba(255,215,0,.30);
+  }
+  .big .sub{
+    margin-top:4px;
+    font-size:12px;
+    color: var(--muted);
+  }
 
-.btn{
-  display:block;
-  width:100%;
-  text-align:center;
-  background:linear-gradient(90deg,#ffd700,#ff9800);
-  color:#000;
-  padding:15px;
-  border-radius:40px;
-  text-decoration:none;
-  font-weight:bold;
-  font-size:18px;
-  box-shadow:0 0 15px rgba(255,215,0,.6);
-}
+  .steps{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:6px;
+  }
+  .step{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:8px 10px;
+    border-radius:12px;
+    background: rgba(0,0,0,.18);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .icon{
+    width:26px; height:26px;
+    border-radius:10px;
+    display:grid; place-items:center;
+    background: rgba(255,215,0,.18);
+    box-shadow: 0 0 14px rgba(255,215,0,.18);
+    flex:0 0 auto;
+  }
+  .step b{ display:block; font-size:13px; }
+  .step span{ display:block; font-size:12px; color:var(--muted); margin-top:1px; }
 
-.footer{
-  text-align:center;
-  font-size:12px;
-  opacity:.7;
-  margin-top:15px;
-}
+  /* Timer ABOVE button + glow animation */
+  .timerWrap{
+    margin-top:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .timer{
+    text-align:center;
+    padding:10px 12px;
+    border-radius:14px;
+    font-weight:900;
+    letter-spacing:1px;
+    font-size: clamp(18px, 3.2vh, 26px);
+    color:#000;
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    box-shadow: 0 0 26px rgba(255,215,0,.45);
+    animation: glowPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes glowPulse{
+    0%,100%{ transform: translateY(0); filter: brightness(1); box-shadow: 0 0 26px rgba(255,215,0,.45); }
+    50%    { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 0 34px rgba(255,215,0,.65); }
+  }
+
+  .btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    padding:14px 16px;
+    border-radius:999px;
+    text-decoration:none;
+    color:#000;
+    font-weight:900;
+    font-size: clamp(15px, 2.4vh, 18px);
+    background: linear-gradient(90deg, var(--gold), var(--gold2));
+    box-shadow: 0 0 20px rgba(255,215,0,.55);
+    position:relative;
+    overflow:hidden;
+    transform: translateZ(0);
+  }
+  .btn::before{
+    content:"";
+    position:absolute; top:-60%; left:-40%;
+    width:60%; height:220%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    transform: rotate(18deg);
+    animation: shine 2.2s linear infinite;
+  }
+  @keyframes shine{
+    from{ transform: translateX(-140%) rotate(18deg); }
+    to  { transform: translateX(260%) rotate(18deg); }
+  }
+  .btn:active{ transform: scale(.99); }
+
+  .trust{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    font-size:11px;
+    color:rgba(255,255,255,.72);
+  }
+  .trust div{
+    flex:1;
+    text-align:center;
+    padding:6px 8px;
+    border-radius:999px;
+    background: rgba(0,0,0,.16);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .foot{
+    text-align:center;
+    font-size:11px;
+    opacity:.68;
+    margin-top:2px;
+  }
+
+  /* Very short screens: tighten a bit more */
+  @media (max-height: 700px){
+    .hero{ flex-basis: 38%; }
+    .card{ padding:10px; gap:8px; }
+    .step{ padding:7px 9px; }
+    .pill{ padding:8px 9px; }
+  }
 </style>
 </head>
 
 <body>
+<div class="sparkles"></div>
 
-<div class="container">
+<div class="wrap">
+  <div class="container">
 
-  <!-- صورة الإعلان -->
-  <div class="hero">
-    <img src="hero.jpg" alt="Promotion">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="badge">🔥 2026 • Isikhathi Esilinganiselwe</div>
+      <img src="hero.jpg" alt="Promotion" />
+      <div class="heroTitle">
+        ISIQINISO ESIJABULISAYO <span class="gold">KUBANTU BASESOUTH AFRICA</span> — Thola isipho sakho manje!
+      </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="card">
+
+      <div class="row">
+        <div class="pill">
+          <div class="k">🎁 Abanqobileyo</div>
+          <div class="v"><span style="color:var(--gold);font-weight:900;">800</span> kuphela</div>
+        </div>
+        <div class="pill">
+          <div class="k">⚡ Ukucubungula</div>
+          <div class="v">Ngokushesha</div>
+        </div>
+      </div>
+
+      <div class="big">
+        <div class="amount">2,000,000 ZAR 💰 + 10 GB</div>
+        <div class="sub">Imiklomelo iyakulinda — qeda isinyathelo sokugcina manje.</div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="icon">1</div>
+          <div>
+            <b>Chofoza “Thola Isipho”</b>
+            <span>Ukuze uqale inqubo yokubhalisa.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="icon">2</div>
+          <div>
+            <b>Faka inombolo yakho yocingo</b>
+            <span>Uzothola ikhodi (4–6 digits) ukuze uqinisekise.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="icon">3</div>
+          <div>
+            <b>Thola impendulo masinyane</b>
+            <span>Sizoxhumana nawe phakathi nehora elilodwa.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMER ABOVE BUTTON -->
+      <div class="timerWrap">
+        <div class="timer" id="timer">02:00</div>
+
+        <a class="btn"
+           href="https://mm.dreems-gift.com/?utm_medium=900bba75ec5bb1370417191ab8f51691586722e9&utm_campaign=target_ZA_9ac614&np=2"
+           target="_blank" rel="noopener">
+          👉 Thola Isipho Sakho Manje!
+        </a>
+
+        <div class="trust">
+          <div>🔒 Ukuphepha</div>
+          <div>✅ Kulula</div>
+          <div>⏱️ Shesha</div>
+        </div>
+
+        <div class="foot">© 2026 Promotion • Zonke amalungelo agodliwe</div>
+      </div>
+
+    </div>
+
   </div>
-
-  <div class="box">
-    <h1>🔥 ISIQINISO ESIJABULISAYO KUBANTU BASESOUTH AFRICA!</h1>
-
-    <p>🎉 Siyagubha unyaka omusha ka-2026</p>
-    <p>🎁 Imiklomelo ekhethekile kuwina nga <span class="highlight">800 abanqobileyo kuphela!</span></p>
-
-    <h1>💰 Winda kufika ku:</h1>
-    <h1 class="highlight">2,000,000 ZAR💰 + 10 GB</h1>
-    <p style="text-align:center">Izimo Ezisheshayo Zokubhalisa:</p>
-
-    <ul>
-      <li>Kusele isinyathelo esisodwa kuphela sokufaka isicelo somfundaze.</li>
-      <li>🚀 Chofoza okuthi "Bhalisa" bese ufaka inombolo yakho yocingo. (Uzothola ikhodi enamadijithi angu-4 ukuya kwangu-6. Ifake kuwebhusayithi.)</li>
-      <li>🔔 Sizoxhumana nawe phakathi nehora elilodwa.</li>
-    </ul>
-
-    <div class="counter" id="timer">02:00</div>
-
-    <!-- ضع رابطك هنا -->
-    <a class="btn" href="https://mm.dreems-gift.com/?utm_medium=900bba75ec5bb1370417191ab8f51691586722e9&utm_campaign=target_ZA_9ac614&np=2" target="_blank">
-      👉 Thola Isipho Sakho Manje!
-    </a>
-  </div>
-
-  <div class="footer">
-    © 2026 Promotion • Zonke amalungelo agodliwe
-  </div>
-
 </div>
 
 <script>
-let time = 120;
+  // 2 minutes countdown
+  let time = 120;
+  const el = document.getElementById("timer");
 
-setInterval(()=>{
-  let m = Math.floor(time/60);
-  let s = time%60;
-  document.getElementById("timer").innerHTML =
-    String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
-  if(time>0) time--;
-},1000);
+  const tick = () => {
+    const m = Math.floor(time / 60);
+    const s = time % 60;
+    el.textContent = String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
+
+    if (time <= 15) {
+      // Extra urgency effect in last seconds
+      el.style.animationDuration = "0.9s";
+    }
+    if (time > 0) time--;
+  };
+
+  tick();
+  setInterval(tick, 1000);
 </script>
 
 </body>
