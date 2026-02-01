@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Isiqiniseko Esijabulisayo 2026</title>
+<link rel="preload" as="image" href="hero.jpg">
 
 <style>
   :root{
@@ -274,6 +275,33 @@
     .step{ padding:7px 9px; }
     .pill{ padding:8px 9px; }
   }
+
+/* Performance + stronger pulse */
+.btn{
+  will-change: transform, filter;
+  animation: ctaPulse 1.25s infinite;
+  transform: translateZ(0);
+}
+@keyframes ctaPulse{
+  0%{transform:scale(1) translateZ(0); filter:drop-shadow(0 0 0 rgba(255,215,0,0.0));}
+  50%{transform:scale(1.035) translateZ(0); filter:drop-shadow(0 0 18px rgba(255,215,0,0.65));}
+  100%{transform:scale(1) translateZ(0); filter:drop-shadow(0 0 0 rgba(255,215,0,0.0));}
+}
+/* Reduce heavy shadows slightly for faster paint */
+.box{box-shadow: 0 10px 24px rgba(0,0,0,.25);}
+
+
+/* Mobile compression */
+.container{padding:8px;}
+.hero img{max-height:160px;}
+.box{padding:10px;margin-top:8px;}
+h1{margin:6px 0;font-size:20px;}
+ul li{margin:4px 0;font-size:14px;}
+p{margin:4px 0;font-size:14px;}
+.counter{margin-top:10px;font-size:22px;}
+.btn{margin-top:8px;padding:12px;font-size:16px;}
+.footer{margin-top:8px;}
+
 </style>
 </head>
 
@@ -286,7 +314,7 @@
     <!-- HERO -->
     <div class="hero">
       <div class="badge">🔥 2026 • Isikhathi Esilinganiselwe</div>
-      <img src="hero.jpg" alt="Promotion" />
+      <img src="hero.jpg" alt="Promotion" / loading="lazy" decoding="async">
       <div class="heroTitle">
         ISIQINISO ESIJABULISAYO <span class="gold">KUBANTU BASESOUTH AFRICA</span> — Thola isipho sakho manje!
       </div>
@@ -347,6 +375,8 @@
 
     
 
+    
+
         <div class="trust">
           <div>🔒 Ukuphepha</div>
           <div>✅ Kulula</div>
@@ -362,24 +392,24 @@
 </div>
 
 <script>
-  // 2 minutes countdown
-  let time = 120;
-  const el = document.getElementById("timer");
+let time = 120;
+const el = document.getElementById("timer");
 
-  const tick = () => {
-    const m = Math.floor(time / 60);
-    const s = time % 60;
-    el.textContent = String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
+function render(){
+  const m = Math.floor(time/60);
+  const s = time%60;
+  el.textContent = String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
+}
 
-    if (time <= 15) {
-      // Extra urgency effect in last seconds
-      el.style.animationDuration = "0.9s";
-    }
-    if (time > 0) time--;
-  };
+function tick(){
+  if(time > 0) time--;
+  // Update text in next paint
+  requestAnimationFrame(render);
+  setTimeout(tick, 1000);
+}
 
-  tick();
-  setInterval(tick, 1000);
+requestAnimationFrame(render);
+setTimeout(tick, 1000);
 </script>
 
 </body>
