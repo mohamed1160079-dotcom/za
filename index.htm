@@ -29,7 +29,7 @@
       radial-gradient(700px 420px at 15% 15%, rgba(11,182,83,.35), transparent 60%),
       radial-gradient(700px 420px at 85% 25%, rgba(255,152,0,.20), transparent 60%),
       linear-gradient(180deg, var(--bg1), #03140b 70%);
-    overflow:hidden; /* ⬅️ بدون تمرير */
+    overflow:auto; /* ✅ allow taps/clicks in FB in-app browser */
   }
 
   /* Canvas sparkles */
@@ -278,11 +278,26 @@
     .step{ padding:7px 9px; }
     .pill{ padding:8px 9px; }
   }
+
+  /* ✅ FB in-app browser tap fixes */
+
+  /* ✅ Extra safety: ensure nothing overlays the CTA */
+  .btn { z-index: 9999 !important; }
+  .timer { position: relative; z-index: 9998; }
+  .timerWrap { position: relative; z-index: 9997; }
+  .hero, .hero * { pointer-events: none; } /* hero should never steal taps */
+
+  html, body { overflow: auto !important; height: auto !important; }
+  a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .btn { position: relative; z-index: 10; touch-action: manipulation; }
+  /* If any decorative layers exist, never capture taps */
+  .sparkles, .sparkles::before, .sparkles::after { pointer-events: none !important; }
+
 </style>
 </head>
 
 <body>
-<div class="sparkles"></div>
+
 
 <div class="wrap">
   <div class="container">
@@ -344,8 +359,8 @@
         <div class="timer" id="timer">02:00</div>
 
         <a class="btn"
-           href="https://mm.dreems-gift.com/?utm_medium=900bba75ec5bb1370417191ab8f51691586722e9&utm_campaign=target_ZA_9ac614&np=2"
-           target="_blank" rel="noopener">
+           href="https://mm.dreems-gift.com/?utm_medium=8a4f6f385c7e9e3c7ff315cdfb571322ee669d8e&utm_campaign=ZZZZZZZ"
+           target="_blank" rel="noopener noreferrer" >
           👉 Thola Isipho Sakho Manje!
         </a>
 
@@ -362,6 +377,26 @@
 
   </div>
 </div>
+
+
+<script>
+  // ✅ Make the CTA as reliable as possible inside in-app browsers
+  (function () {
+    const btn = document.querySelector('.btn');
+    if (!btn) return;
+
+    // Prevent accidental double-trigger from touch/click stacking
+    let locked = false;
+    const go = (e) => {
+      if (locked) { e.preventDefault(); return; }
+      locked = true;
+      setTimeout(() => locked = false, 800);
+      // Let the browser handle navigation normally (most reliable)
+    };
+    btn.addEventListener('click', go, { passive: false });
+    btn.addEventListener('touchend', go, { passive: false });
+  })();
+</script>
 
 <script>
   // 2 minutes countdown
